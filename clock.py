@@ -55,7 +55,7 @@ def main():
         toggle = not toggle
         sec = datetime.now().second
         # see if device is busy before we do anything
-	with open('busy.txt', 'r') as the_file:
+	with open('/home/pi/hooks/busy.txt', 'r') as the_file:
            if the_file.read() == "0":              
             if sec == 59:
             # When we change minutes, animate the minute change

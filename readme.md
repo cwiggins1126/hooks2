@@ -1,7 +1,23 @@
 Creates a smart clock with a webserver used as webhook to receive messages from ifttt.
-(Originally written in python 2.7)
+Built with a Raspberry Pi 3 Model B Rev 1.2 Raspbian GNU/Linux version "10 (buster)" and 
+a 4 module MAX7219 (8x32 matrix) and python 2.7.
 
-On raspberry pi
+Hardware
+1. Need a Raspberry Pi 
+   (4) module MAX7219 
+   (5) female - female wire jumpers 
+2. On Raspberry Pi enable the GPIO interface
+   sudo raspi-config
+    Select option "5 Interfacing Options" and then 
+                  "P5 I2C Enable/Disable automtic loading of SPI kernel module"
+3. connect MAX7219 to Raspberry Pi GPIO pins using the (5) jumper wires
+   MAX7219 VCC to RPI pin 2 
+   MAX7219 GND to RPI pin 6
+   MAX7219 DIN to RPI pin 19 
+   MAX7219 CS to RPI pin 24 
+   MAX7219 CLK to RPI pin 23 
+   
+On Raspberry pi
 1. install web.py to service the web requests
      sudo pip install web.py
 
@@ -14,9 +30,11 @@ On raspberry pi
 4. run hooks2.py to create the webserver
      /usr/bin/python /pi/home/hooks2/hooks2.py
 
-5. if you want clock & hooks2 to run at startup, create 2 services
+5. if you want clock & hooks2 to run at startup, create 2 services & allow permissions
     sudo cp ledclock.service /usr/lib/systemd/system
     sudo cp leddisplay.service /usr/lib/systemd/system
+    sudo chmod 644 /lib/systemd/system/ledclock.service
+    sudo chmod 644 /lib/systemd/system/ledclock.service
    
    Reload systemctl daemon, enable the 2 services and start them   
     sudo systemctl daemon-reload
