@@ -1,10 +1,22 @@
-Creates a smart clock with a webserver used as webhook to receive messages from ifttt.
+**Hooks2**
+
+Creates a smart clock with a webserver used as webhook to receive messages from IFTTT.
 Built with a Raspberry Pi 3 Model B Rev 1.2 Raspbian GNU/Linux version "10 (buster)" and 
 a 4 module MAX7219 (8x32 matrix) and python 2.7.
 
-Hardware
+NOTE: If not cloned into `/home/pi` then paths need to be updated in the following locations and the in the instructions that follow.:
+- `clock.py` line 58
+- `hooks2.py` line 36 && 44
+- `ledclock.service` line 7
+- `leddisplay.service` line 7
+
+Additional reference : https://max7219.readthedocs.io/en/0.2.3/
+
+**Hardware**
 1. Need a Raspberry Pi 
    (4) module MAX7219 
+   ![max7219](images/max7219.jpg)
+
    (5) female - female wire jumpers 
 2. On Raspberry Pi enable the GPIO interface
    sudo raspi-config
@@ -16,39 +28,57 @@ Hardware
    MAX7219 DIN to RPI pin 19 
    MAX7219 CS to RPI pin 24 
    MAX7219 CLK to RPI pin 23 
-   
-On Raspberry pi
+
+   ![Wiring Table](images/wiring_table.jpg)
+
+**On Raspberry pi**
 1. install web.py to service the web requests
+     ```
      sudo pip install web.py
+     ```
 
 2. install luma.led_matrix to provide the max7219 display libraries
-     sudo pip install luma.led_matrix
+    ```
+    sudo pip install luma.led_matrix
+    ```
 
 3. run clock.py to create the clock display
-     /usr/bin/python /pi/home/hooks2/clock.py
+    ```
+    /usr/bin/python /pi/home/hooks2/clock.py
+    ```
 
 4. run hooks2.py to create the webserver
+    ```
      /usr/bin/python /pi/home/hooks2/hooks2.py
+    ```
 
 5. if you want clock & hooks2 to run at startup, create 2 services & allow permissions
+    ```
     sudo cp ledclock.service /usr/lib/systemd/system
     sudo cp leddisplay.service /usr/lib/systemd/system
     sudo chmod 644 /lib/systemd/system/ledclock.service
     sudo chmod 644 /lib/systemd/system/ledclock.service
+    ```
    
    Reload systemctl daemon, enable the 2 services and start them   
+   ```
     sudo systemctl daemon-reload
     sudo systemctl enable leddisplay.service
     sudo systemctl enable ledclock.service
+    ```
    
    Start the services
+   ```
     sudo systemctl start leddisplay.service
     sudo systemctl start ledclock.service
+    ```
 
 7. monitor the services using their log files; clock.log & hooks2.log or 
    by checking the service status
+   ```
     sudo systemctl status leddisplay.service
     sudo systemctl status ledclock.service
+    ```
 
 8. testing
    If you started the ledclock service or just run the clock script, a clock should display
@@ -65,7 +95,9 @@ On your router
    Create a firewall rule like;
     any inbound traffic on "pubip" port 5207 redirect to "piip" port 8080
 
-On ifttt
+    ![Firewall Example](images/Firewall.png)
+
+On IFTTT
 1. Create applets that will send messages to your smart clock. The smart clock end point on 
    ifttt is a webhook. 
    - URL: built from your public ip, port and the applet ingredients.
@@ -78,6 +110,10 @@ On ifttt
    - Method: GET
    - Content Type: text/plain
    - Body: leave blank 
+
+    ![IFTTT Part 1](images/IFTTT_1.png)
+    ![IFTTT Part 2](images/IFTTT_2.png)
+
 
 2. Create other applets with the "then" part as a webhook. 
    Use the same url and add what ever ingredients you like.
