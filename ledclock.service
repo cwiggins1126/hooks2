@@ -1,0 +1,10 @@
+[Unit]
+ Description=Max7219 LED Clock Service
+ After=multi-user.target
+
+ [Service]
+ Type=idle
+ ExecStart=/usr/bin/python /home/pi/hooks/clock.py > /home/pi/hooks/clock.log 2>&1
+
+ [Install]
+ WantedBy=multi-user.target

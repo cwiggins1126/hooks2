@@ -1,0 +1,10 @@
+[Unit]
+ Description=Max7219 LED Display Service
+ After=multi-user.target
+
+ [Service]
+ Type=idle
+ ExecStart=/usr/bin/python /home/pi/hooks/hooks2.py 8080 > /home/pi/hooks/hooks2.log 2>&1
+
+ [Install]
+ WantedBy=multi-user.target
