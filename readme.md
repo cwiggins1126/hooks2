@@ -34,30 +34,28 @@ Additional reference : https://max7219.readthedocs.io/en/0.2.3/
 **On Raspberry pi**
 1. install web.py to service the web requests
      ```
-     sudo pip install web.py
+     sudo pip install web.py==0.39
      ```
 
 2. install luma.led_matrix to provide the max7219 display libraries
     ```
-    sudo pip install luma.led_matrix
+    sudo pip install luma.led_matrix==1.4.1
     ```
 
 3. run clock.py to create the clock display
     ```
-    /usr/bin/python /pi/home/hooks2/clock.py
+    /usr/bin/python /home/pi/hooks2/clock.py
     ```
 
 4. run hooks2.py to create the webserver
     ```
-     /usr/bin/python /pi/home/hooks2/hooks2.py
+     /usr/bin/python /home/pi/hooks2/hooks2.py
     ```
 
 5. if you want clock & hooks2 to run at startup, create 2 services & allow permissions
     ```
     sudo cp ledclock.service /usr/lib/systemd/system
     sudo cp leddisplay.service /usr/lib/systemd/system
-    sudo chmod 644 /lib/systemd/system/ledclock.service
-    sudo chmod 644 /lib/systemd/system/ledclock.service
     ```
    
    Reload systemctl daemon, enable the 2 services and start them   
