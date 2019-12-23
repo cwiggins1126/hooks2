@@ -33,7 +33,7 @@ class hooks:
         i = 0
         loop = 3
         # reserve the display 
-        with open('/home/pi/hooks/busy.txt', 'w') as the_file:
+        with open('/home/pi/hooks2/busy.txt', 'w') as the_file:
            the_file.write('1')
 	while i < loop:
             device.clear()
@@ -41,10 +41,11 @@ class hooks:
             time.sleep(5)
             i += 1
         # release the display
-        with open('/home/pi/hooks/busy.txt', 'w') as the_file:
+        with open('/home/pi/hooks2/busy.txt', 'w') as the_file:
             the_file.write('0')
         # write the web page
         return "<h1>" + user_data.id + "<h1>"
 
 if __name__ == '__main__':
     app.run()
+
